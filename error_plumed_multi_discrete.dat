@@ -1,0 +1,9 @@
+# read in file from bootstrapped WHAM cycle and create temporary fes
+# used in combination with full_error_discrete.py
+
+phi: READ FILE=temp_bias_multi_discrete.dat VALUES=phi IGNORE_TIME
+lw: READ FILE=temp_bias_multi_discrete.dat VALUES=logweights IGNORE_TIME
+
+hhphir: HISTOGRAM ARG=phi GRID_MIN=-pi GRID_MAX=pi GRID_BIN=599 KERNEL=DISCRETE  LOGWEIGHTS=lw
+ffphir: CONVERT_TO_FES GRID=hhphir # no need to set TEMP here, PLUMED will obtain it from GROMACS
+DUMPGRID GRID=ffphir FILE=temp_fes_phi_catr_discrete.dat

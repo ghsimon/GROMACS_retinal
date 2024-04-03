@@ -1,0 +1,21 @@
+; all heavy atoms of backbone strongly restrained 10000
+; lysine atoms restrained
+; dihedral NOT restrained
+; C6 atom NOT restrained
+
+[ position_restraints ]
+; atom  type      fx      fy      fz
+     1     1  10000  10000  10000
+     5     1  10000  10000  10000
+     6     1  10000  10000  10000
+     7     1  10000  10000  10000
+     9     1  10000  10000  10000
+    11     1  10000  10000  10000
+    14     1  10000  10000  10000
+    17     1  10000  10000  10000
+    20     1  10000  10000  10000
+    73     1  10000  10000  10000
+    74     1  10000  10000  10000
+    75     1  10000  10000  10000
+    77     1  10000  10000  10000
+

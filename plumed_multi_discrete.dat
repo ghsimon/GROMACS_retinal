@@ -1,0 +1,11 @@
+# Read the trajectory dihedral values phi and their weights from WHAM
+phi: READ FILE=bias_multi2.dat VALUES=phi IGNORE_TIME
+lw: READ FILE=bias_multi2.dat VALUES=logweights IGNORE_TIME
+
+# Build histogram of phi with weights from WHAM
+# We use a discrete kernel here
+hhphir: HISTOGRAM ARG=phi GRID_MIN=-pi GRID_MAX=pi GRID_BIN=600 KERNEL=DISCRETE LOGWEIGHTS=lw
+
+# Convert to FES and write out to file
+ffphir: CONVERT_TO_FES GRID=hhphir 
+DUMPGRID GRID=ffphir FILE=fes_phi_catr_discrete.dat

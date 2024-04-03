@@ -1,0 +1,38 @@
+title                  = Umbrella  simulation equilibration
+define                 = -DPOSRES6
+; Run parameters
+integrator             = sd
+dt                     = 0.002     ; 2fs
+tinit                  = 0
+nsteps                 = 100000    ; 200 ps
+nstcomm                = 100
+; Output parameters
+nstxout-compressed     = 100
+nstenergy              = 100
+; Bond parameters
+constraint_algorithm   = lincs
+constraints            = h-bonds
+continuation           = no
+; Single-range cutoff scheme
+cutoff-scheme          = group
+nstlist                = 0
+ns_type                = simple
+rcoulomb               = 1.0
+rvdw                   = 1.0
+coulombtype            = Cut-off
+
+tc_grps                = Protein
+tau_t                  = 2.0
+ref_t                  = 300
+
+; Pressure coupling is off
+Pcoupl                 = no
+refcoord_scaling       = com
+
+; Generate velocities is on
+gen_vel                = yes
+gen_temp               = 300
+
+: no pbc for vacuum simulation
+pbc                    = no
+comm_mode              = ANGULAR

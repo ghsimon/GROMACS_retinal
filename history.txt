@@ -1,0 +1,40 @@
+### ENERGY MINIMIZATION
+gmx grompp -f minim.mdp -c 6eid_capped_matched.gro -r 6eid_capped_matched.gro -p topol.top -o em.tpr
+gmx mdrun -v -deffnm em
+
+### GENERATE TRAJECTORIES AFTER EQUILIBRATION
+# (not parallelized)
+bash mult/mult.sh 
+bash mult/mult2.sh
+bash mult/mult3.sh
+bash mult/mult4.sh
+wait
+
+### CLEAN UP
+bash clean.sh
+
+### CONCATENATE TRAJECTORY
+gmx_mpi trjcat -cat -f traj*.xtc -o alltraj.xtc
+
+### MOVE TRAJECTORY OF EACH UMBRELLA TO FOLDER
+mkdir traj
+mv traj*.xtc traj
+
+### CALCULATE WEIGHTS for FULL TRAJECTORY to EACH UMBRELLA
+#  (not parallellized)
+bash conc/conc.sh 
+bash conc/conc2.sh 
+wait
+
+### DO BINLESS WHAM
+python run_wham2.py
+
+### MOVE WEIGHT FILES TO FOLDER
+mkdir ALLCOLVAR
+mv ALLC* ALLCOLVAR
+
+### MAKE HISTOGRAM AND FREE ENERGY SURFACE
+plumed driver --noatoms --plumed plumed_multi_discrete.dat --kt 2.4943387854
+
+### DO BOOTSTRAPPING FOR ERROR ESTIMATION
+python full_error_discrete.py
